@@ -5,11 +5,9 @@ import json
 import chardet
 import os
 
-from Path_IN_Laptop import Path_in_Record
-
 class Read_2015_relationalCorpus:
-    def __init__(self):
-        pass
+    def __init__(self, PathObj):
+        self.Path_in_Record = PathObj
 
     def read_json_wikiTable(self, path):
         with open(path, "rb") as file:
@@ -72,6 +70,7 @@ class Read_2015_relationalCorpus:
         print("read ", i, "json")
         return JsonList
 
+    ########################## analysis dataset
     def checkKeyWord(self, keyWordsList, seg_list):
         for key in keyWordsList:
             if key in seg_list:
@@ -79,8 +78,7 @@ class Read_2015_relationalCorpus:
         return False
 
     def seekTables(self, keyWordsList):
-
-        PathOFData = Path_in_Record.path_2015RelathionCorpus
+        PathOFData = self.Path_in_Record.path_2015RelathionCorpus
         # r"D:\data set\WebTable\webtable 2015-07 relationalCorpus"
         for root, dirs, files in os.walk(PathOFData):
             # print("root: ", root) #当前目录路径
@@ -125,7 +123,7 @@ class Read_2015_relationalCorpus:
         print(count)
 
     def logOutliers_Statistics_table_numRowColumn(self, pair, json):
-        pathWrite = Path_in_Record.path_2015RelathionCorpus_logOutliers
+        pathWrite = self.Path_in_Record.path_2015RelathionCorpus_logOutliers
         # pathWrite = r"D:\data set\WebTable\webtable 2015-07 relationalCorpus log\logOutliers"
 
         with open(pathWrite, 'a') as f:
@@ -141,7 +139,7 @@ class Read_2015_relationalCorpus:
             f.write('\n')
 
     def logCount_Statistics_table_numRowColumn(self, sum_numberOfElementIn_Row, sum_numberOfElementIn_Column, sumTable, distributed):
-        pathWrite = Path_in_Record.path_2015RelathionCorpus_logStatistic
+        pathWrite = self.Path_in_Record.path_2015RelathionCorpus_logStatistic
         # pathWrite = r"D:\data set\WebTable\webtable 2015-07 relationalCorpus log\logStatistic"
         with open(pathWrite, 'a') as f:
             print("sum_numberOfElementIn_Row", sum_numberOfElementIn_Row, " sum_numberOfElementIn_Column", sum_numberOfElementIn_Column, " sumTable", (sumTable-1))
@@ -163,7 +161,7 @@ class Read_2015_relationalCorpus:
         sum_numberOfElementIn_Column = 2698548
         sumTable = 181535
 
-        PathOFData = Path_in_Record.path_2015RelathionCorpus
+        PathOFData = self.Path_in_Record.path_2015RelathionCorpus
         # r"D:\data set\WebTable\webtable 2015-07 relationalCorpus"
         for root, dirs, files in os.walk(PathOFData):
             # print("root: ", root) #当前目录路径
@@ -221,40 +219,3 @@ class Read_2015_relationalCorpus:
                                                             distributed=distributed)
 
 
-
-if __name__ == "__main__":
-    read = Read_2015_relationalCorpus()
-
-    # 数据集：wikiTable
-    # path = r"D:\data set——data lake\tableMentions.json"
-    # read.read_json_wikiTable(path=path)
-
-
-    # 数据集：webTable
-    # path = r"D:\data set——data lake\JOISE data set WebTable\webtable 2015-07\1438042981460.12\warc\CC-MAIN-20150728002301-00004-ip-10-236-191-2.ec2.internal.json"
-    # read.read_json_webTable(path=path)
-
-    ########################################################## 根绝pageTitle查找相同主题的table
-    # keyWordsList = ["Restaurants", "restaurants", "restaurant", "Restaurant"]
-    # keyWordsList = ["University", "university", "school", "School", "college", "College"]
-    # keyWordsList = ["soccer", "Soccer", "soccerclub", "soccerClub", "SoccerClub", "club", "club"]
-    # keyWordsList = ["City", "city", "cities", "Cities"]
-    # keyWordsList = ["meter", "Meter", "meters", "Meters"]
-    # keyWordsList = ["car", "cars", "Car", "Cars", "vehicle", "Vehicle", "vehicles", "Vehicles"]
-    # keyWordsList = ["television", "Television", "televisions", "Televisions", "patent", "patents", "Patent", "Patents"]
-    # keyWordsList = ["id", "ID", "Id", "ids", "IDs", "Ids"]
-    # keyWordsList = ["session", "Session", "sessions", "Sessions"]
-    # keyWordsList = ["population", "Population", "POPULATION"]
-    # keyWordsList = ["computer", "Computer", "computers", "COMPUTER", "COMPUTERS"]
-    # keyWordsList = ["person", "Person", "persons", "Persons", "individual", "individuals"]
-    # keyWordsList = ["student", "Student", "students", "Students"]
-    # keyWordsList = ["employee", "employees", "Empployee", "Employees"]
-    # keyWordsList = ["Pollution", "pollution", "Pollutants", "pollutants", "emission", "Emission"]
-    # keyWordsList = ["Championships", "championships", "Cyclist", "cyclist", "emission", "Emission"] # 消耗时间
-    # keyWordsList = ["manufacturer", "manufacturers", "Manufacturer", "Manufacturers", "industry", "industries", "Industry", "Industries"] # 1438042981921.1\warc\CC-MAIN-20150728002301-00047
-    # keyWordsList = ["company", "Company", "companies", "Companies"]
-    # keyWordsList = ["hosipital", "Hosipital", "Hosipitals", "hosipitals", "doctor", "Doctor", "doctors", "Doctors", "medical", "Medical", "patient", "patients", "Patient", "Patients"]
-    # read.seekTables(keyWordsList=keyWordsList)
-
-    ########################################################## 分析table的大小
-    read.Statistics_table_numRowColumn(sampleStep=49, outlier=200)
