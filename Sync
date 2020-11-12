@@ -1,0 +1,17 @@
+#coding = utf-8
+
+class Path_in_Record:
+    def __init__(self):
+        pass
+
+    ########### 2015 WDC Web Table Corpus 2015
+
+    # Relational Corpus 2015
+    path_2015RelathionCorpus = r"D:\data set\WebTable\webtable 2015-07 relationalCorpus"
+    path_2015RelathionCorpus_logStatistic = "D:\data set\WebTable\webtable 2015-07 relationalCorpus log\logStatistic"
+    path_2015RelathionCorpus_logOutliers = r"D:\data set\WebTable\webtable 2015-07 relationalCorpus log\logOutliers"
+
+    # English-Language Relational Web Tables 2015
+    path_2015EnglishRelationCorpus = r"D:\data set\WebTable\webtable 2015-07 englishCorpus\00\00\0"
+
+    ########### this is a test commit
