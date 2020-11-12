@@ -70,7 +70,22 @@ class Read_2015_relationalCorpus:
         print("read ", i, "json")
         return JsonList
 
-    ########################## analysis dataset
+    ############################################################################## 数据预处理
+    def prepare_convert_matrix(self, matrix):
+        return list(zip(*matrix))
+
+    ############################################################################## get
+    def get_json2Table(self, jsonList):
+        tableList = []
+        for json in jsonList:
+            try:
+                matrix = json["relation"]
+                matrixT = self.prepare_convert_matrix(matrix=matrix)    # 转置之后才是table对应的column和row
+                tableList.append(matrixT)
+            except:
+                print("error:", json)
+
+    ############################################################################## analysis dataset
     def checkKeyWord(self, keyWordsList, seg_list):
         for key in keyWordsList:
             if key in seg_list:
@@ -172,11 +187,11 @@ class Read_2015_relationalCorpus:
             for file in files:
                 path = root + "\\" + file
                 print("\npath is :",path)
-                JsonList = self.read_json_webTable(path=path, sampleStep=sampleStep)
+                jsonList = self.read_json_webTable(path=path, sampleStep=sampleStep)
 
-                sumTable += len(JsonList)
+                sumTable += len(jsonList)
 
-                for json in JsonList:
+                for json in jsonList:
                     # print(json)
                     try:
                         table = json["relation"]    # 转置之后才是table对应的column和row
